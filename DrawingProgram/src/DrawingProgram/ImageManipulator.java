@@ -44,22 +44,10 @@ public class ImageManipulator {
             String tempString = "";
             String oneZeroString = getOneZeroString();
             int pixelCounter = 0;
-            int sharpenCounter = 0;
             int allCounter = 0;
-            int temp = 0;
             int mCount = 0;
             int dCount = 0;
-            int check = edge.getBufferedImage().getWidth();
-//            
-//            if(check > 0 && check < 9){
-//                commandString = commandString + "000" + check;
-//            } else if(check > 9 && check < 100){
-//                commandString = commandString + "00" + check;
-//            } else if(check > 99 && check < 1000){
-//                commandString = commandString + "0" + check;
-//            } else if(check > 999 && check < 10000){
-//                commandString = commandString + check;
-//            }
+            int check = edge.getBufferedImage().getWidth();          
             
             for(int i = 0; i < oneZeroString.length(); i++){
                 this.picturePixelCounter++;
@@ -69,12 +57,9 @@ public class ImageManipulator {
                     tempString = tempString + "D";
                 }
             }
+            commandString = commandString + "S";
             
             for(int i = 0; i < tempString.length(); i++){
-                if(sharpenCounter == 5000){
-                    commandString = commandString + "S";
-                    sharpenCounter = 0;
-                }
                 
                 if(pixelCounter == check){
                     if(tempString.charAt(allCounter) == 'D'){
@@ -88,24 +73,18 @@ public class ImageManipulator {
                         } else if(dCount > 999 && dCount < 10000){
                             commandString = commandString + "D" + dCount;
                         }
-                        temp = pixelCounter + temp;
-                        pixelCounter = 0;
-                    } else if(tempString.charAt(allCounter) == 'M'){
-                        mCount++;
-                        temp = pixelCounter + temp;
-                        pixelCounter = 0;
                     }
                     commandString = commandString + "N";
                     pixelCounter = 0;
                     mCount = 0;
                     dCount = 0;
                 }
+                
                 if(allCounter < tempString.length()-1){
                     switch (tempString.charAt(i)) {
 
                         case 'M':
                             allCounter++;
-                            sharpenCounter++;
                             if(tempString.charAt(allCounter) == 'D'){
                                 if(mCount > 0 && mCount < 10){
                                     commandString = commandString + "M000" + mCount;
@@ -123,7 +102,6 @@ public class ImageManipulator {
                             break;
                         case 'D':
                             allCounter++;
-                            sharpenCounter++;
                             if(tempString.charAt(allCounter) == 'M'){
                                 if(dCount > 0 && dCount < 10){
                                     commandString = commandString + "D000" + dCount;

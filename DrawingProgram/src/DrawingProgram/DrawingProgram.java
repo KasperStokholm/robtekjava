@@ -5,8 +5,6 @@
  */
 package DrawingProgram;
 
-import java.awt.Color;
-import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -22,19 +20,14 @@ public class DrawingProgram {
      */
     public static void main(String[] args) {
         
-
-
-        //Photograph with blurry background: https://udemy-images.udemy.com/course/750x422/394968_538b_7.jpg
-        //Test paint picture: https://i.imgur.com/fqoaeEW.png
-        ImageManipulator imageManipulator = new ImageManipulator("https://vintage.ponychan.net/chan/files/src/131999656437.png");
-        
-        System.out.println(imageManipulator.getCommandString());
-        System.out.println(imageManipulator.getCounter());
+        //Android picture: http://www.techfleece.com/wp-content/uploads/2011/12/android-logo-200x200.jpg
+        //Dog photograph: http://sharethejoyphotography.com/files/seo-galleries/gallery-699/thumbs/Bloodhound-photograph-6-200x200.jpg
+        ImageManipulator imageManipulator = new ImageManipulator("http://www.techfleece.com/wp-content/uploads/2011/12/android-logo-200x200.jpg");
         
         //Connecting to PLC if PLC is setup
-//        RobotClient client = new RobotClient("localhost", 12345);
-//        client.connect();
-//        client.writeString(imageManipulator.getCommandString());
+        RobotClient client = new RobotClient("localhost", 12345);
+        client.connect();
+        client.writeString(imageManipulator.getCommandString());
 
         JFrame pictureFrame = new JFrame();
         JFrame lineFrame = new JFrame();
@@ -49,13 +42,11 @@ public class DrawingProgram {
         //Setting size on pictureFrame
         pictureFrame.setSize(400, 400);
         pictureFrame.add(imageLabel);
-        
 
         //Drawing from commandGenerator
         for(Drawing d : imageManipulator.getDrawings()){
             p.addDrawing(d);
         }
-
         
         //Set all frames to visible
         pictureFrame.setVisible(true);
